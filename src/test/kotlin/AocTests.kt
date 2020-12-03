@@ -21,4 +21,25 @@ class AocTests {
         assertEquals(1, Day02(string("1-3 a: abcde\n1-3 b: cdefg\n2-9 c: ccccccccc")).b())
         assertEquals(335, Day02(file(2)).b())
     }
+
+    @Test
+    fun day03() {
+        val example = """
+            ..##.......
+            #...#...#..
+            .#....#..#.
+            ..#.#...#.#
+            .#...##..#.
+            ..#.##.....
+            .#.#.#....#
+            .#........#
+            #.##...#...
+            #...##....#
+            .#..#...#.#
+        """.trimIndent()
+        assertEquals(7, Day03(string(example)).a())
+        assertEquals(156, Day03(file(3)).a())
+        assertEquals(336, Day03(string(example)).b())
+        assertEquals(3521829480, Day03(file(3)).b())
+    }
 }
