@@ -12,7 +12,7 @@ class Day02(io: Kattio) {
                     char = char,
                     password = password
                 )
-            }
+            }!!
         }
 
     fun a() = passwords.count { it.isValidA() }
