@@ -96,4 +96,13 @@ class AocTests {
         assertEquals(4, Day04(string(allValidB)).b())
         assertEquals(145, Day04(file(4)).b())
     }
+
+    @Test
+    fun day05() {
+        assertEquals(567, Day05(string("BFFFBBFRRR")).a())
+        assertEquals(119, Day05(string("FFFBBBFRRR")).a())
+        assertEquals(820, Day05(string("BBFFBBFRLL")).a())
+        assertEquals(842, Day05(file(5)).a())
+        assertEquals(617, Day05(file(5)).b())
+    }
 }
