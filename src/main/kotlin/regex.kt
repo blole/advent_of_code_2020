@@ -14,23 +14,8 @@ inline fun <reified T: Any> MatchResult.get(i: Int): T =
         else -> throw NotImplementedError("missing regex conversion for ${T::class}")
     }
 
-fun String.destructure(regex: String): String? =
-    if (Regex(regex).matches(this)) this else null
-
-fun <R> String.destructure(regex: String, transform: () -> R): R? =
-    Regex(regex).matchEntire(this)?.run { transform() }
-
-inline fun <reified A : Any>
-    String.match(regex: String, condition: (A) -> Boolean): A? =
-    Regex(regex).matchEntire(this)?.run { if (condition(get(1))) get(1) else null }
-
-inline fun <reified A : Any, reified B : Any>
-    String.match(regex: String, condition: (A, B) -> Boolean): Pair<A,B>? =
-    Regex(regex).matchEntire(this)?.run { if (condition(get(1), get(2))) Pair(get(1), get(2)) else null }
-
-inline fun <reified A : Any, reified B : Any, reified C : Any>
-    String.match(regex: String, condition: (A, B, C) -> Boolean): Triple<A,B,C>? =
-    Regex(regex).matchEntire(this)?.run { if (condition(get(1), get(2), get(3))) Triple(get(1), get(2), get(3)) else null }
+fun String.match0(regex: String): String? =
+    Regex(regex).matchEntire(this)?.value
 
 inline fun <reified A : Any>
         String.match1(regex: String): A? =
@@ -44,13 +29,8 @@ inline fun <reified A : Any, reified B : Any, reified C : Any>
         String.match3(regex: String): Triple<A,B,C>? =
     Regex(regex).matchEntire(this)?.run { Triple(get(1), get(2), get(3)) }
 
-inline fun <reified A : Any>
-    String.destructure(regex: String): A? =
-    Regex(regex).matchEntire(this)?.run { get(1) }
-
-inline fun <reified A : Any, reified B : Any>
-    String.destructure2(regex: String): Pair<A,B>? =
-    Regex(regex).matchEntire(this)?.run { Pair(get(1), get(2)) }
+fun <R> String.destructure(regex: String, transform: () -> R): R? =
+    Regex(regex).matchEntire(this)?.run { transform() }
 
 inline fun <reified A : Any, R>
     String.destructure(regex: String, transform: (a: A) -> R): R? =
@@ -71,3 +51,52 @@ inline fun <reified A : Any, reified B : Any, reified C : Any, reified D : Any, 
 inline fun <reified A : Any, reified B : Any, reified C : Any, reified D : Any, reified E : Any, R>
     String.destructure(regex: String, transform: (a: A, b: B, c: C, d: D, e: E) -> R): R? =
     Regex(regex).matchEntire(this)?.run { transform(get(1), get(2), get(3), get(4), get(5)) }
+
+
+
+class DestructuringContextBuilder<R>(val input: String) {
+    val cases: MutableList<() -> Result<R>?> = mutableListOf()
+
+    object Else
+    class Result<R>(val value: R)
+
+    infix fun Else.then(transform: (String) -> R) = "(.*)" then transform
+    infix fun
+            String.then(transform: () -> R) {
+        cases += { Regex(this).matchEntire(input)?.run { Result(transform()) } }
+    }
+    inline infix fun <reified A : Any>
+            String.then(crossinline transform: (A) -> R) {
+        cases += { Regex(this).matchEntire(input)?.run { Result(transform(get(1))) } }
+    }
+    inline infix fun <reified A : Any, reified B : Any>
+            String.then(crossinline transform: (A,B) -> R) {
+        cases += { Regex(this).matchEntire(input)?.run { Result(transform(get(1), get(2))) } }
+    }
+    inline infix fun <reified A : Any, reified B : Any, reified C : Any>
+            String.then(crossinline transform: (A,B,C) -> R) {
+        cases += { Regex(this).matchEntire(input)?.run { Result(transform(get(1), get(2), get(3))) } }
+    }
+
+    companion object {
+        private fun <R> whenRegexPrivate(input: String, defineCases: DestructuringContextBuilder<R>.() -> Unit): Result<R>? {
+            val builder = DestructuringContextBuilder<R>(input)
+            builder.defineCases()
+            for (case in builder.cases) {
+                val result = case()
+                if (result != null)
+                    return result
+            }
+            return null
+        }
+
+        fun <R> whenRegexOrNull(input: String, defineCases: DestructuringContextBuilder<R>.() -> Unit): R? {
+            return whenRegexPrivate(input, defineCases)?.value
+        }
+
+        fun <R> whenRegex(input: String, defineCases: DestructuringContextBuilder<R>.() -> Unit): R {
+            return (whenRegexPrivate(input, defineCases) ?: throw IllegalArgumentException("no match in '$input'")).value
+        }
+    }
+}
+
