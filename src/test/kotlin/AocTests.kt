@@ -208,4 +208,16 @@ class AocTests {
         assertEquals(62, Day09(string(example), 5).b())
         assertEquals(169521051, Day09(file(9), 25).b())
     }
+
+    @Test
+    fun day10() {
+        val example1 = "16 10 15 5 1 11 7 19 6 12 4"
+        val example2 = "28 33 18 42 31 14 46 20 48 47 24 23 49 45 19 38 39 11 1 32 25 35 8 17 7 9 4 2 34 10 3"
+        assertEquals(35, Day10(string(example1)).a())
+        assertEquals(220, Day10(string(example2)).a())
+        assertEquals(2432, Day10(file(10)).a())
+        assertEquals(8, Day10(string(example1)).b())
+        assertEquals(19208, Day10(string(example2)).b())
+        assertEquals(453551299002368, Day10(file(10)).b())
+    }
 }
