@@ -73,24 +73,24 @@ class Kattio(i: InputStream = System.`in`, o: OutputStream = System.out) : Print
 
     val hasMoreTokens: Boolean get() = tokenizer?.hasMoreTokens() ?: false
 
-    fun intOrNull():    Int?        = nextToken()?.toInt()
-    fun longOrNull():   Long?       = nextToken()?.toLong()
-    fun bigintOrNull(): BigInteger? = nextToken()?.toBigInteger()
-    fun doubleOrNull(): Double?     = nextToken()?.toDouble()
-    fun wordOrNull():   String?     = nextToken()
+    fun intOrNull(delimiters: String? = null):    Int?        = nextToken(delimiters)?.toInt()
+    fun longOrNull(delimiters: String? = null):   Long?       = nextToken(delimiters)?.toLong()
+    fun bigintOrNull(delimiters: String? = null): BigInteger? = nextToken(delimiters)?.toBigInteger()
+    fun doubleOrNull(delimiters: String? = null): Double?     = nextToken(delimiters)?.toDouble()
+    fun wordOrNull(delimiters: String? = null):   String?     = nextToken(delimiters)
     fun lineOrNull():   String?     = nextToken("")
 
-    fun int():    Int        = intOrNull()!!
-    fun long():   Long       = longOrNull()!!
-    fun bigint(): BigInteger = bigintOrNull()!!
-    fun double(): Double     = doubleOrNull()!!
-    fun word():   String     = wordOrNull()!!
+    fun int(delimiters: String? = null):    Int        = intOrNull(delimiters)!!
+    fun long(delimiters: String? = null):   Long       = longOrNull(delimiters)!!
+    fun bigint(delimiters: String? = null): BigInteger = bigintOrNull(delimiters)!!
+    fun double(delimiters: String? = null): Double     = doubleOrNull(delimiters)!!
+    fun word(delimiters: String? = null):   String     = wordOrNull(delimiters)!!
     fun line():   String     = lineOrNull()!!
 
-    fun ints():    Sequence<Int>        = generateSequence { intOrNull() }
-    fun longs():   Sequence<Long>       = generateSequence { longOrNull() }
-    fun bigints(): Sequence<BigInteger> = generateSequence { bigintOrNull() }
-    fun doubles(): Sequence<Double>     = generateSequence { doubleOrNull() }
-    fun words():   Sequence<String>     = generateSequence { wordOrNull() }
+    fun ints(delimiters: String? = null):    Sequence<Int>        = generateSequence { intOrNull(delimiters) }
+    fun longs(delimiters: String? = null):   Sequence<Long>       = generateSequence { longOrNull(delimiters) }
+    fun bigints(delimiters: String? = null): Sequence<BigInteger> = generateSequence { bigintOrNull(delimiters) }
+    fun doubles(delimiters: String? = null): Sequence<Double>     = generateSequence { doubleOrNull(delimiters) }
+    fun words(delimiters: String? = null):   Sequence<String>     = generateSequence { wordOrNull(delimiters) }
     fun lines():   Sequence<String>     = generateSequence { lineOrNull() }
 }

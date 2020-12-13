@@ -255,4 +255,16 @@ class AocTests {
         assertEquals(286, Day12(string(example)).b())
         assertEquals(61053, Day12(file(12)).b())
     }
+
+    @Test
+    fun day13() {
+        assertEquals(295, Day13(string("939 7,13,x,x,59,x,31,19")).a())
+        assertEquals(2092, Day13(file(13)).a())
+        assertEquals(3417.B, Day13(string("0 17,x,13,19")).b())
+        assertEquals(754018.B, Day13(string("0 67,7,59,61")).b())
+        assertEquals(779210.B, Day13(string("0 67,x,7,59,61")).b())
+        assertEquals(1261476.B, Day13(string("0 67,7,x,59,61")).b())
+        assertEquals(1202161486.B, Day13(string("0 1789,37,47,1889")).b())
+        assertEquals(702970661767766.B, Day13(file(13)).b())
+    }
 }
