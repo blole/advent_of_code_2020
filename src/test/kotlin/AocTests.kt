@@ -267,4 +267,24 @@ class AocTests {
         assertEquals(1202161486.B, Day13(string("0 1789,37,47,1889")).b())
         assertEquals(702970661767766.B, Day13(file(13)).b())
     }
+
+    @Test
+    fun day14() {
+        val example = """
+            mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X
+            mem[8] = 11
+            mem[7] = 101
+            mem[8] = 0
+        """.trimIndent()
+        assertEquals(165, Day14(string(example)).a())
+        assertEquals(15172047086292, Day14(file(14)).a())
+        val example2 = """
+            mask = 000000000000000000000000000000X1001X
+            mem[42] = 100
+            mask = 00000000000000000000000000000000X0XX
+            mem[26] = 1
+        """.trimIndent()
+        assertEquals(208, Day14(string(example2)).b())
+        assertEquals(4197941339968, Day14(file(14)).b())
+    }
 }
