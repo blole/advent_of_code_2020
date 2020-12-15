@@ -287,4 +287,25 @@ class AocTests {
         assertEquals(208, Day14(string(example2)).b())
         assertEquals(4197941339968, Day14(file(14)).b())
     }
+
+    @Test
+    fun day15() {
+        assertEquals(436, Day15(string("0,3,6")).a())
+        assertEquals(1, Day15(string("1,3,2")).a())
+        assertEquals(10, Day15(string("2,1,3")).a())
+        assertEquals(27, Day15(string("1,2,3")).a())
+        assertEquals(78, Day15(string("2,3,1")).a())
+        assertEquals(438, Day15(string("3,2,1")).a())
+        assertEquals(1836, Day15(string("3,1,2")).a())
+        assertEquals(257, Day15(file(15)).a())
+
+        assertEquals(175594, Day15(string("0,3,6")).b())
+        assertEquals(2578, Day15(string("1,3,2")).b())
+        assertEquals(3544142, Day15(string("2,1,3")).b())
+        assertEquals(261214, Day15(string("1,2,3")).b())
+        assertEquals(6895259, Day15(string("2,3,1")).b())
+        assertEquals(18, Day15(string("3,2,1")).b())
+        assertEquals(362, Day15(string("3,1,2")).b())
+        assertEquals(8546398, Day15(file(15)).b())
+    }
 }
